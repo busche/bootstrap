@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Bootstrap" default="package-output" basedir=".">
+	<target name="init-constants">
+
+		<!-- enable logging of the build output-->
+		<record name="${basedir}/build.log" append="no" />
+				
+		<!-- try to load a local properties file -->
+		<property file="project.properties"  />
+
+		<available file="${basedir}/scripts/run.sh" property="isRunShAvail" />
+		<fail message="Please copy scripts/run.sh.sample to scripts/run.sh and possibly adjust the Java launching parameters." unless="isRunShAvail" />
+
+		<!-- do not change these properties here, do change project.properties file, instead -->
+	
+		<property name="build.path" value="build"/>
+		<property name="source.java" value="${basedir}/src/java" />		
+		<property name="tests.java" value="${basedir}/src/tests" />
+		<property name="examples.java" value="${basedir}/src/examples" />
+		
+		<patternset id="thirdparty.patternset">
+			<include name="*.jar" />
+		</patternset>
+
+		<!-- The combined library classpath -->
+		<path id="thirdparty.classpath">
+			<fileset dir="lib">
+				<patternset refid="thirdparty.patternset" />
+			</fileset>
+		</path>
+
+		<!-- The classpath required to build classes. -->
+		<path id="javac.classpath">
+			<path refid="thirdparty.classpath" />
+		</path>
+
+		<path id="javac.classpath.core">
+			<path refid="thirdparty.classpath" />			
+		</path>
+
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- clean the whole output folder                                      -->
+	<!-- ================================================================== -->
+	<target name="clean" depends="init-constants">
+		<record name="${basedir}/build.log" action="stop" />
+		<delete file="${base-dir}/build.log" quiet="true" failonerror="false" />
+		<delete dir="${build.path}/classes" />
+		<delete dir="${basedir}/output" />
+	</target>
+
+	<!-- Compile all class files -->
+	<target name="compile-classes" depends="revision, init-constants">
+		<mkdir dir="${build.path}/classes" />
+		<javac destdir="${build.path}/classes" 
+				optimize="${maven.compile.optimize}" 
+				debug="${maven.compile.debug}" 
+				depend="${javac.depend}" 
+				verbose="${maven.compile.verbose}" 
+				deprecation="${maven.compile.deprecation}" 
+				includeAntRuntime="${javac.include.ant.runtime}" 
+				includeJavaRuntime="${javac.include.java.runtime}" 
+				failonerror="true">
+			<src path="${source.java}" />
+			<classpath refid="javac.classpath" />
+		</javac>		
+	</target>
+
+	<target name="compile-examples" depends="revision, init-constants">
+		<mkdir dir="${build.path}/classes-example" />
+		<javac destdir="${build.path}/classes-example" 
+				optimize="${maven.compile.optimize}" 
+				debug="${maven.compile.debug}" 
+				depend="${javac.depend}" 
+				verbose="${maven.compile.verbose}" 
+				deprecation="${maven.compile.deprecation}" 
+				includeAntRuntime="${javac.include.ant.runtime}" 
+				includeJavaRuntime="${javac.include.java.runtime}" 
+				failonerror="true">
+			<src path="${examples.java}" />
+			<classpath refid="javac.classpath" />
+			<classpath path="${build.path}/classes"></classpath>
+		</javac>		
+	</target>
+
+	<target name="compile" depends="compile-classes, current-number" description="Compile all source files for the core module.">
+		<copy todir="${build.path}/classes">
+			<fileset dir="${source.java}">
+				<exclude name="**/*.class" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="jar" depends="compile,current-number,current-time" description="Builds jars for core module.">
+		<delete dir="${basedir}/output" />
+		<mkdir dir="${basedir}/output" />
+		<echo file="${build.path}/classes/de/ismll/bootstrap/version.info" message="${build.number}" append="false"></echo>
+		<echo file="${build.path}/classes/de/ismll/bootstrap/module.info" message="${time.current}" append="false"></echo>
+		
+		<jar jarfile="${basedir}/output/${module.name}-${build.number}.jar">
+			<fileset dir="${build.path}/classes" includes="**" />
+		</jar>
+		
+	</target>
+	
+	<target name="jar-examples" depends="compile-examples,current-number" description="Builds example jar.">
+		
+		<jar jarfile="${basedir}/output/${module.name}-examples-${build.number}.jar">
+			<fileset dir="${build.path}/classes-example" includes="**" />
+		</jar>
+		
+	</target>
+		
+	<target name="jar-wsource" depends="compile" description="Builds jars for core module.">
+		<jar jarfile="${basedir}/output/${module.name}-${build.number}-src.jar">
+			<fileset dir="${build.path}/classes" includes="**" />
+			<fileset dir="${source.java}" includes="**/*.java" />
+		</jar>
+	</target>
+	
+	<target name="package-output" depends="jar,jar-examples" description="Builds jars for core module.">
+		
+		<copy todir="${basedir}/output">
+			<fileset dir="lib">
+				<include name="**/log4j-1.2.15.jar" />
+			</fileset>
+			<fileset dir="${basedir}/scripts">
+				<include name="*.sh" />
+				<include name="*.bat" />
+			</fileset>
+		</copy>
+		<chmod perm="0755">
+			<fileset dir="${basedir}/output">
+				<include name="**/*.sh" />								
+			</fileset>
+		</chmod>
+	</target>
+	
+
+	<target name="release" depends="jar" description="Builds jars for core module.">
+		<delete dir="${basedir}/release" />
+		<mkdir dir="${basedir}/release" />
+		<mkdir dir="${basedir}/release/lib" />
+		<mkdir dir="${basedir}/release/scripts" />
+		<mkdir dir="${basedir}/release/examples" />
+		<copy todir="${basedir}/release/lib">
+			<fileset dir="${basedir}/output">
+				<include name="**/*" />
+				<exclude name="log4j*.jar"/>
+				<exclude name="**/*.sh"/>
+			</fileset>
+		</copy>
+		<copy todir="${basedir}/release/examples">
+			<fileset dir="${examples.java}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${basedir}/release">
+			<fileset dir="${basedir}/releasebase">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${basedir}/release/scripts">
+			<fileset dir="${basedir}/output">
+				<include name="*.sh" />
+			</fileset>
+		</copy>
+		<chmod perm="0755">
+			<fileset dir="${basedir}/release/scripts">
+				<include name="**/*.sh" />
+			</fileset>
+		</chmod>
+	</target>
+	
+	<target name="current-number">
+		<property name="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}" />
+	</target>
+
+	<target name="dist">
+		<antcall target="minor"></antcall>
+	</target>
+
+	<target name="revision">
+		<propertyfile file="project.properties">
+			<entry key="build.revision.number" type="int" operation="+"
+				value="1" pattern="00" />
+		</propertyfile>
+		<propertyfile file="project.properties.sample">
+			<entry key="build.revision.number" type="int" operation="+"
+				value="1" pattern="00" />
+		</propertyfile>
+	</target>
+
+	<target name="minor">
+		<propertyfile file="project.properties">
+			<entry key="build.minor.number" type="int" operation="+" value="1"
+				pattern="00" />
+			<entry key="build.revision.number" type="int" value="0"
+				pattern="00" />
+		</propertyfile>
+		<propertyfile file="project.properties.sample">
+			<entry key="build.minor.number" type="int" operation="+" value="1"
+				pattern="00" />
+			<entry key="build.revision.number" type="int" value="0"
+				pattern="00" />
+		</propertyfile>
+	</target>
+
+	<target name="major">
+		<propertyfile file="project.properties">
+			<entry key="build.major.number" type="int" operation="+" value="1"
+				pattern="00" />
+			<entry key="build.minor.number" type="int" value="0" pattern="00" />
+			<entry key="build.revision.number" type="int" value="0"
+				pattern="00" />
+		</propertyfile>
+		<propertyfile file="project.properties.sample">
+			<entry key="build.major.number" type="int" operation="+" value="1"
+				pattern="00" />
+			<entry key="build.minor.number" type="int" value="0" pattern="00" />
+			<entry key="build.revision.number" type="int" value="0"
+				pattern="00" />
+		</propertyfile>
+	</target>
+
+	<target name="current-time">
+		<tstamp>
+	    	<format property="time.current" pattern="yyyy/MM/dd" locale="en,UK"/>
+	  	</tstamp>	
+	</target>
+</project>
+

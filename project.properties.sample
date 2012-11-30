@@ -1,0 +1,16 @@
+#Fri, 30 Nov 2012 14:13:19 +0100
+#############################################
+#  java compiler section
+#############################################
+maven.compile.target=1.6
+maven.compile.verbose=off
+maven.compile.optimize=on
+maven.compile.debug=on
+maven.compile.source=1.6
+maven.compile.deprecation=off
+
+module.name=bootstrap
+
+build.major.number=0
+build.minor.number=9
+build.revision.number=29
