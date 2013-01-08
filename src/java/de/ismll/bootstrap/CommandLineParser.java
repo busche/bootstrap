@@ -198,7 +198,6 @@ public class CommandLineParser{
 	
 	private static void printCommandLineHelp(Class<?> clazz, PrintStream out, boolean terminateVm) {
 			
-		Field[] fields = clazz.getDeclaredFields();
 		class DT{
 			Parameter p;
 			Field f;
@@ -207,21 +206,28 @@ public class CommandLineParser{
 		
 		int maxLengthCmdLine = -1;
 		int maxLengthFieldType = -1;
-		for(Field field : fields){
-			Parameter annotation = field.getAnnotation(Parameter.class);
+		// TODO: add supertype fields
 		
-			if (annotation == null)
-				continue;
+		Class<? extends Object> targetObjectClazz = clazz;
+		while (!targetObjectClazz.equals(Object.class)) {
 
-			DT d = new DT();
-			d.p=annotation;
-			d.f=field;
-			parameters.put(annotation.cmdline(), d);
-			maxLengthCmdLine = Math.max(maxLengthCmdLine, annotation.cmdline().length());
+			Field[] fields = clazz.getDeclaredFields();
+			for(Field field : fields){
+				Parameter annotation = field.getAnnotation(Parameter.class);
 			
-			String fieldClassName = getHumanFieldName(field);
-			
-			maxLengthFieldType = Math.max(maxLengthFieldType, fieldClassName.length());
+				if (annotation == null)
+					continue;
+	
+				DT d = new DT();
+				d.p=annotation;
+				d.f=field;
+				parameters.put(annotation.cmdline(), d);
+				maxLengthCmdLine = Math.max(maxLengthCmdLine, annotation.cmdline().length());
+				
+				String fieldClassName = getHumanFieldName(field);
+				
+				maxLengthFieldType = Math.max(maxLengthFieldType, fieldClassName.length());
+			}
 		}
 		
 		maxLengthCmdLine = Math.max("Parameter".length(), maxLengthCmdLine);
