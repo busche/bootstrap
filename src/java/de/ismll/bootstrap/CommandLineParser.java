@@ -210,7 +210,7 @@ public class CommandLineParser{
 		Class<? extends Object> targetObjectClazz = clazz;
 		while (!targetObjectClazz.equals(Object.class)) {
 
-			Field[] fields = clazz.getDeclaredFields();
+			Field[] fields = targetObjectClazz.getDeclaredFields();
 			for(Field field : fields){
 				Parameter annotation = field.getAnnotation(Parameter.class);
 			
