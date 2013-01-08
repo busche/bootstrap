@@ -206,7 +206,6 @@ public class CommandLineParser{
 		
 		int maxLengthCmdLine = -1;
 		int maxLengthFieldType = -1;
-		// TODO: add supertype fields
 		
 		Class<? extends Object> targetObjectClazz = clazz;
 		while (!targetObjectClazz.equals(Object.class)) {
@@ -228,6 +227,7 @@ public class CommandLineParser{
 				
 				maxLengthFieldType = Math.max(maxLengthFieldType, fieldClassName.length());
 			}
+			targetObjectClazz=targetObjectClazz.getSuperclass();
 		}
 		
 		maxLengthCmdLine = Math.max("Parameter".length(), maxLengthCmdLine);
