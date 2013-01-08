@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Bootstrap" default="package-output" basedir=".">
-	<target name="init-constants">
+	<target name="init-constants" depends="hackant17">
 
 		<!-- enable logging of the build output-->
 		<record name="${basedir}/build.log" append="no" />
@@ -10,6 +10,10 @@
 
 		<available file="${basedir}/scripts/run.sh" property="isRunShAvail" />
 		<fail message="Please copy scripts/run.sh.sample to scripts/run.sh and possibly adjust the Java launching parameters." unless="isRunShAvail" />
+	
+		<available file="${basedir}/lib" property="isLibAvail" />
+		<fail message="Please create a folder called 'lib' and put the log4j library in there." unless="isLibAvail" />
+
 
 		<!-- do not change these properties here, do change project.properties file, instead -->
 	
@@ -39,6 +43,26 @@
 		</path>
 
 	</target>
+
+
+  <target name="hackant17-properties">
+      <available property="ant17.works"
+                     classname="org.apache.tools.ant.taskdefs.optional.EchoProperties"
+                                    />
+                                      </target>
+
+  <target name="hackant17"
+            depends="hackant17-properties"
+                      unless="ant17.works">
+                          <taskdef name="propertyfile" classname="org.apache.tools.ant.taskdefs.optional.PropertyFile">
+                                <classpath>
+                                        <fileset dir="${ant.home}/lib">
+                                                  <include name="ant-nodeps.jar" />
+                                                          </fileset>
+                                                                </classpath>
+                                                                    </taskdef>
+                                                                      </target>
+
 
 	<!-- ================================================================== -->
 	<!-- clean the whole output folder                                      -->
@@ -182,7 +206,7 @@
 		<antcall target="minor"></antcall>
 	</target>
 
-	<target name="revision">
+	<target name="revision" depends="hackant17">
 		<propertyfile file="project.properties">
 			<entry key="build.revision.number" type="int" operation="+"
 				value="1" pattern="00" />
