@@ -10,7 +10,7 @@
 
 		<available file="${basedir}/scripts/run.sh" property="isRunShAvail" />
 		<fail message="Please copy scripts/run.sh.sample to scripts/run.sh and possibly adjust the Java launching parameters." unless="isRunShAvail" />
-
+	
 		<available file="${basedir}/lib" property="isLibAvail" />
 		<fail message="Please create a folder called 'lib' and put the log4j library in there." unless="isLibAvail" />
 
@@ -44,7 +44,6 @@
 
 	</target>
 
-
 	<target name="hackant17-properties">
 		<available property="ant17.works" classname="org.apache.tools.ant.taskdefs.optional.EchoProperties" />
 	</target>
@@ -58,6 +57,7 @@
 			</classpath>
 		</taskdef>
 	</target>
+
 
 
 	<!-- ================================================================== -->
