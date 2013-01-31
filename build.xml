@@ -12,7 +12,7 @@
 		<fail message="Please copy scripts/run.sh.sample to scripts/run.sh and possibly adjust the Java launching parameters." unless="isRunShAvail" />
 	
 		<available file="${basedir}/lib" property="isLibAvail" />
-		<fail message="Please create a folder called 'lib' and put the log4j library in there." unless="isLibAvail" />
+		<fail message="Please create a folder called 'lib' and put the log4j library in there. Bootstrap has been tested with version log4j-1.2.14, but should also work with more recent versions." unless="isLibAvail" />
 
 
 		<!-- do not change these properties here, do change project.properties file, instead -->
