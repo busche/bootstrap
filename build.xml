@@ -147,7 +147,7 @@
 
 		<copy todir="${basedir}/output">
 			<fileset dir="lib">
-				<include name="**/log4j-1.2.15.jar" />
+				<include name="log4j-*.jar" />
 			</fileset>
 			<fileset dir="${basedir}/scripts">
 				<include name="*.sh" />
