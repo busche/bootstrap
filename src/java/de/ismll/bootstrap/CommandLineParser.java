@@ -33,13 +33,20 @@ import org.apache.log4j.Logger;
  */
 public class CommandLineParser{
 
+	private static final char ARRAY_END = ']';
+	private static final char ARRAY_START = '[';
+	private static final String ARRAY_END_STRING = ARRAY_END + "";
+	private static final String ARRAY_START_STRING = ARRAY_START + "";
 	private static String ARRAY_DELIMITER = null;
+	private static final char ARRAY_DELIMITER_CHAR;
 	private static String SVN_VERSION="";
 	private static String MODULE_VERSION="";
 	
 	static {
 		String t = System.getProperty(CommandLineParser.class.toString() + ".arrayDelimiter");
 		ARRAY_DELIMITER=(t==null?",":t);
+		ARRAY_DELIMITER_CHAR=ARRAY_DELIMITER.charAt(0);
+		
 		InputStream resourceAsStream = CommandLineParser.class.getResourceAsStream("version.info");
 		byte[] b = new byte[10];
 		try {
@@ -536,7 +543,7 @@ public class CommandLineParser{
 		}
 		
 		if (targetClassType == char[].class) {
-			String[] strings = from.toString().replace("[", "").replace("]", "").split(ARRAY_DELIMITER);
+			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			char result[] = new char[strings.length];
 			for (int i = 0; i < result.length; i++) {
 				result[i] = strings[i].trim().charAt(0);
@@ -545,7 +552,7 @@ public class CommandLineParser{
 		}
 		
 		if (targetClassType == String[].class) {
-			String[] strings = from.toString().replace("[", "").replace("]", "").split(ARRAY_DELIMITER);
+			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			String result[] = new String[strings.length];
 			for (int i = 0; i < result.length; i++) {
 				result[i] = strings[i].trim();
@@ -553,7 +560,7 @@ public class CommandLineParser{
 			return result;
 		}
 		if (targetClassType == URI[].class) {
-			String[] strings = from.toString().replace("[", "").replace("]", "").split(ARRAY_DELIMITER);
+			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			URI result[] = new URI[strings.length];
 			for (int i = 0; i < result.length; i++) {
 				result[i] = URI.create(strings[i].trim());
@@ -563,7 +570,7 @@ public class CommandLineParser{
 		
 
 		if (targetClassType == boolean[].class) {
-			String[] strings = from.toString().replace("[", "").replace("]", "").split(ARRAY_DELIMITER);
+			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			boolean result[] = new boolean[strings.length];
 			for (int i = 0; i < result.length; i++) {
 				result[i] = Boolean.parseBoolean(strings[i].trim());
@@ -572,7 +579,7 @@ public class CommandLineParser{
 		}
 		
 		if (targetClassType == float[].class) {
-			String[] strings = from.toString().replace("[", "").replace("]", "").split(ARRAY_DELIMITER);
+			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			float result[] = new float[strings.length];
 			for (int i = 0; i < result.length; i++) {
 				result[i] = Float.parseFloat(strings[i].trim());
@@ -581,7 +588,7 @@ public class CommandLineParser{
 		}
 		
 		if (targetClassType == double[].class) {
-			String[] strings = from.toString().replace("[", "").replace("]", "").split(ARRAY_DELIMITER);
+			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			double result[] = new double[strings.length];
 			for (int i = 0; i < result.length; i++) {
 				result[i] = Double.parseDouble(strings[i].trim());
@@ -590,7 +597,7 @@ public class CommandLineParser{
 		}
 		
 		if (targetClassType == short[].class) {
-			String[] strings = from.toString().replace("[", "").replace("]", "").split(ARRAY_DELIMITER);
+			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			short result[] = new short[strings.length];
 			for (int i = 0; i < result.length; i++) {
 				result[i] = Short.parseShort(strings[i].trim());
@@ -599,7 +606,7 @@ public class CommandLineParser{
 		}
 
 		if (targetClassType == int[].class) {
-			String[] strings = from.toString().replace("[", "").replace("]", "").split(ARRAY_DELIMITER);
+			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			int result[] = new int[strings.length];
 			for (int i = 0; i < result.length; i++) {
 				result[i] = Integer.valueOf(strings[i].trim()).intValue();
@@ -607,7 +614,7 @@ public class CommandLineParser{
 			return result;
 		}
 		if (targetClassType == long[].class) {
-			String[] strings = from.toString().replace("[", "").replace("]", "").split(ARRAY_DELIMITER);
+			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			long result[] = new long[strings.length];
 			for (int i = 0; i < result.length; i++) {
 				result[i] = Long.valueOf(strings[i].trim()).longValue();
@@ -616,7 +623,7 @@ public class CommandLineParser{
 		}
 		
 		if (targetClassType == File[].class) {
-			String[] strings = from.toString().replace("[", "").replace("]", "").split(ARRAY_DELIMITER);
+			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			File result[] = new File[strings.length];
 			for (int i = 0; i < result.length; i++) {
 				result[i] = new File(strings[i].trim());
@@ -785,11 +792,45 @@ public class CommandLineParser{
 		String[] split = in.substring(0, in.length()).split("" + keyValueDelimiter);
 		Map<String, Object> ret = new TreeMap<String, Object>();
 		
-		for (String s : split) {
-			String[] chunk = s.split("" + assignment);
+		List<String> split2 = new ArrayList<String>();
+		
+		StringBuffer sb = new StringBuffer();
+		String key=null;
+		
+		int idx=0;
+		int length = in.length();
+		boolean skip=false;
+		while (idx < length) {
+			char currentChar = in.charAt(idx);
 			
-			ret.put(chunk[0], chunk[1]);
+			if (currentChar == ARRAY_START) {
+				skip = true;
+				sb.append(currentChar);
+			} else
+			if (currentChar == ARRAY_END) {
+				skip = false;
+				sb.append(currentChar);
+			} else
+			if (currentChar == keyValueDelimiter && !skip) {
+				ret.put(key, sb.toString());
+				sb.setLength(0);
+				key=null;
+			} else
+			if (currentChar == assignment && !skip) {
+				key = sb.toString();
+				sb.setLength(0);
+			} else {
+				sb.append(currentChar);
+			}
+			idx++;
 		}
+		if (sb.length()>0 && key != null)
+			ret.put(key, sb.toString());
+//		for (String s : split) {
+//			String[] chunk = s.split("" + assignment);
+//			
+//			ret.put(chunk[0], chunk[1]);
+//		}
 		
 		return ret;
 	}
