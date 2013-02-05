@@ -637,7 +637,7 @@ public class CommandLineParser{
 				logger.debug("Returned object is of type " + (invoke==null?"null":invoke.getClass()));
 				
 				if (invoke != null && invoke.getClass().isAssignableFrom(targetClassType)) {
-					logger.info("Sucess: Object converted!");
+					logger.info("Success: Object converted!");
 					return invoke;
 				} else {
 					logger.info("static method found according to specification. However: either the reference returned is null, or the returned type (" + invoke==null?"null":invoke.getClass() + ") is not the expected one (" +targetClassType + ").");
@@ -768,7 +768,29 @@ public class CommandLineParser{
 			}
 			
 		}
+	}
+	
+
+	/**
+	 * calls parseMap(String, ',','=')
+	 * 
+	 * @param in a string with syntax key1=value1,key2=value2,key3=value3
+	 * @return a map {key1=value1,key2=value2,key3=value3}
+	 */
+	public static Map<String, Object> parseMap(String in){
+		return parseMap(in, ',', '=');
+	}
+
+	public static Map<String, Object> parseMap(String in, char keyValueDelimiter, char assignment) {
+		String[] split = in.substring(0, in.length()).split("" + keyValueDelimiter);
+		Map<String, Object> ret = new TreeMap<String, Object>();
 		
+		for (String s : split) {
+			String[] chunk = s.split("" + assignment);
+			
+			ret.put(chunk[0], chunk[1]);
+		}
 		
+		return ret;
 	}
 }
