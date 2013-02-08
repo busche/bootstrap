@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Bootstrap" default="package-output" basedir=".">
-	<target name="init-constants" depends="hackant17">
+	
+	
+		
+	<target name="init-constants" depends="check-module-info, delete-properties, hackant17">
 
 		<!-- enable logging of the build output-->
 		<record name="${basedir}/build.log" append="no" />
 
 		<!-- try to load a local properties file -->
-		<property file="project.properties"  />
-
-		<available file="${basedir}/scripts/run.sh" property="isRunShAvail" />
+		
 		<fail message="Please copy scripts/run.sh.sample to scripts/run.sh and possibly adjust the Java launching parameters." unless="isRunShAvail" />
-	
-		<available file="${basedir}/lib" property="isLibAvail" />
 		<fail message="Please create a folder called 'lib' and put the log4j library in there. Bootstrap has been tested with version log4j-1.2.14, but should also work with more recent versions." unless="isLibAvail" />
 
 
@@ -196,6 +195,20 @@
 			</fileset>
 		</chmod>
 	</target>
+	
+	<target name="check-module-info">
+			<property file="project.properties"  />
+			<echo message="${module.name}"/>
+			<available file="${basedir}/scripts/run.sh" property="isRunShAvail" />
+			<available file="${basedir}/lib" property="isLibAvail" />
+				
+		</target>
+		
+		<target name="delete-properties"  depends="check-module-info" unless="module.name">
+			<delete file="project.properties"/>
+			
+			<fail unless="module.version" message="Property module.name was not found. Have you copied project.properties.sample to project.properties and adjusted the parameters???"/>
+		</target>
 
 	<target name="current-number">
 		<property name="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}" />
