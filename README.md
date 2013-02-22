@@ -15,11 +15,18 @@ Features
 
 Feedback and Contributions
 --------------------------
-We are always happy about feedback! Either drop us an email
+We are always happy about feedback! 
+
+You may drop us an email at bootstrap *at* ismll.de, 
+fork it on GitHub:
+
+https://github.com/busche/bootstrap
+
+and have a look at our libraries homepage located here:
 
 http://tech4research.wordpress.com/bootstrap/
 
-
+Therein, we also provide binary downloads.
 
 Documentation and Usage
 -------------
@@ -37,13 +44,13 @@ Citing Bootstrap
 If you use Bootstrap in any way, it would be nice if you could give 
 a reference to our project homepage. Furthermore, informing us 
 if you are using this software would be nice: We know about the 
-usefulness of our library anc can (optinally) link your project on 
+usefulness of our library and can (optinally) link your project on 
 our project website.
 
 
 Copyright & Licensing
 ---------------------
-Copyright (C) 2010, 2011, 2012 Andre Busche
+Copyright (C) 2010, 2011, 2012, 2013 Andre Busche
 Copyright (C) 2009 Martin Ortmann, Andre Busche
 
 Bootstrap is free software: you can redistribute it and/or modify
