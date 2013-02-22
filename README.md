@@ -20,11 +20,11 @@ We are always happy about feedback!
 You may drop us an email at bootstrap *at* ismll.de, 
 fork it on GitHub:
 
-https://github.com/busche/bootstrap
+	https://github.com/busche/bootstrap
 
 and have a look at our libraries homepage located here:
 
-http://tech4research.wordpress.com/bootstrap/
+	http://bootstrap.busche-it.de
 
 Therein, we also provide binary downloads.
 
@@ -32,12 +32,12 @@ Documentation and Usage
 -------------
 See for documentation and usage information:
    
-   http://tech4research.wordpress.com/bootstrap/
-   
+	http://bootstrap.busche-it.de
+	   
 Website
 -------
-   http://tech4research.wordpress.com/bootstrap/
-
+	http://bootstrap.busche-it.de
+	
 
 Citing Bootstrap
 ------------------
