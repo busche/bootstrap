@@ -1,4 +1,4 @@
-#Fri, 30 Nov 2012 14:13:19 +0100
+#Fri, 22 Feb 2013 10:34:35 +0100
 #############################################
 #  java compiler section
 #############################################
@@ -11,6 +11,6 @@ maven.compile.deprecation=off
 
 module.name=bootstrap
 
-build.major.number=0
-build.minor.number=9
-build.revision.number=29
+build.major.number=1
+build.minor.number=0
+build.revision.number=0
