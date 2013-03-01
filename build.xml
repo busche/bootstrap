@@ -141,16 +141,25 @@
 	</target>
 
 	<target name="package-output" depends="jar,jar-examples" description="Builds jars for core module.">
-
+		<mkdir dir="${basedir}/output/licences" />
+				
 		<copy todir="${basedir}/output">
 			<fileset dir="lib">
 				<include name="log4j-*.jar" />
+			</fileset>
+			<fileset dir=".">
+				<include name="README.md" />
 			</fileset>
 			<fileset dir="${basedir}/scripts">
 				<include name="*.sh" />
 				<include name="*.bat" />
 			</fileset>
 		</copy>
+		<copy todir="${basedir}/output/licences">
+			<fileset dir="licences">
+				<include name="*" />
+			</fileset>
+		</copy>	
 		<chmod perm="0755">
 			<fileset dir="${basedir}/output">
 				<include name="**/*.sh" />
