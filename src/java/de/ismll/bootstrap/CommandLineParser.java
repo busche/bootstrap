@@ -369,8 +369,9 @@ public class CommandLineParser{
 		
 		Method[] methods = obj.getClass().getMethods();
 		for(Method m : methods) {
-			if(m.getName().startsWith("set")) {
-				String fieldName = m.getName().substring(3,4).toLowerCase() + m.getName().substring(4);
+			String mName = m.getName();
+			if(mName.startsWith("set") && mName.length()>3) {
+				String fieldName = mName.substring(3,4).toLowerCase() + mName.substring(4);
 				
 				logger.debug(fieldName + " --> " + m);
 				
