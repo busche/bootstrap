@@ -46,7 +46,20 @@ public class Generic {
 				newInstance.run();
 				log.info("Finished.");
 			} catch (ClassCastException e) {
-				log.error("ClassCastException: Does " + forName + " maybe not implement Runnable? If so, cannot use it.");
+				StackTraceElement[] stackTrace = e.getStackTrace();
+				boolean bootstraperror=false;
+				if (stackTrace.length>2) {
+					String compareTo = Generic.class.getCanonicalName();
+					String causingClazz = forName.getCanonicalName();
+					if (compareTo!=null 
+							&& /*callee should be this implementation:*/ stackTrace[1].getClassName().equals(compareTo)
+							&& /*causing class should be the implementation that was instantiated*/ !stackTrace[0].getClassName().equals(causingClazz)) {
+						log.error("ClassCastException: Does " + forName + " maybe not implement Runnable? If so, cannot use it.");
+						bootstraperror=true;
+					}
+				}
+				if (!bootstraperror)
+					throw e;
 				return;
 			} catch (InstantiationException e) {
 				log.error("Could not instantiate " + forName + ". Public, parameterless constructor present?");

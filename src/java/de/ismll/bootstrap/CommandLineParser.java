@@ -475,6 +475,7 @@ public class CommandLineParser{
 
 	public static Object convert(Object from, Class<?> targetClassType) {
 		logger.debug("Converting from " + from.getClass() + " to " + targetClassType);
+		// TODO: Trace the impossibility of conversion (e.g., "asdlkf" cannot be parsed as an int)
 		
 		
 		Class<? extends Object> sourceClazz = from.getClass();
@@ -486,7 +487,7 @@ public class CommandLineParser{
 			try {
 				return new Short(from.toString());
 			} catch (Exception e) {
-				//nooop				
+				//nooop	
 			}
 			try {
 				return new Short(new Double(from.toString()).shortValue());
@@ -498,11 +499,13 @@ public class CommandLineParser{
 			try {
 				return new Integer(from.toString());
 			} catch (Exception e) {
+				System.out.println();
 				//nooop				
 			}
 			try {
 				return new Integer(new Double(from.toString()).intValue());
 			} catch (Exception e) {
+				System.out.println();
 				//nooop
 			}
 		}
