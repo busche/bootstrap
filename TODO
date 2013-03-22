@@ -1,0 +1,17 @@
+
+Concrete Ideas
+==============
+
+Ranked by importance (-- least to ++ highest)
+
+++ More intelligent error message if no converter was found
++ Add Assert.notNull() functionality for implementation classes
++ Convert command line parsing functionality into "well-known" format: -parameter1 arg -parameter2 -parameter3 arg
+- Add @Convert Annotation instead of public static <T> convert(Object in) method
+
+
+Vage Ideas
+==========
+
+-- Add @Converter(clazz="") or @Converter(package="") annotation to be added to implementation classes. The functionality is scanning the clazz / package for @Converter annotations and build supplementary converters (to dynamically include converter between classes)
+  

@@ -433,7 +433,10 @@ public class CommandLineParser{
 						
 					} else { 
 						@SuppressWarnings("unused")
-						Object returnvalue = m.invoke(obj,convert(param_value,type));
+						Object convertedValue = convert(param_value,type);
+						if (convertedValue!=null) {
+							Object returnvalue = m.invoke(obj,convertedValue);
+						}
 					}
 					
 				} catch (IllegalArgumentException e) {
@@ -472,11 +475,19 @@ public class CommandLineParser{
 			System.out.println(p.cmdline() + " : " + p.description()); 
 		}
 	}
+	
+	private static final void fail(Object from, Class<?> object, Class<?> primitive) {
+		logger.warn("Failed to convert \"" + from + "\" to type " + object + (primitive!=null?" or " + primitive:"") + " ... trying further possible converters ...");
+	}
+	
+	private static final void fail(Object from, Class<?> object) {
+		fail(from, object, null);
+	}
 
 	public static Object convert(Object from, Class<?> targetClassType) {
 		logger.debug("Converting from " + from.getClass() + " to " + targetClassType);
 		// TODO: Trace the impossibility of conversion (e.g., "asdlkf" cannot be parsed as an int)
-		
+		boolean failed = false;
 		
 		Class<? extends Object> sourceClazz = from.getClass();
 		if (targetClassType.isAssignableFrom(sourceClazz)/* || targetClassType.equals(sourceClazz)*/) {
@@ -487,38 +498,42 @@ public class CommandLineParser{
 			try {
 				return new Short(from.toString());
 			} catch (Exception e) {
-				//nooop	
+				fail(from, Short.class, short.class);
+				failed=true;
 			}
 			try {
 				return new Short(new Double(from.toString()).shortValue());
 			} catch (Exception e) {
-				//nooop
+				fail(from, Short.class, short.class);	
+				failed=true;
 			}
 		}
 		if(targetClassType == Integer.class || targetClassType == int.class) {
 			try {
 				return new Integer(from.toString());
 			} catch (Exception e) {
-				System.out.println();
-				//nooop				
+				fail(from, Integer.class, int.class);	
+				failed=true;
 			}
 			try {
 				return new Integer(new Double(from.toString()).intValue());
 			} catch (Exception e) {
-				System.out.println();
-				//nooop
+				fail(from, Integer.class, int.class);	
+				failed=true;
 			}
 		}
 		if(targetClassType == Long.class || targetClassType == long.class) {
 			try {
 				return new Long(from.toString());
 			} catch (Exception e) {
-				//nooop				
+				fail(from, Long.class, long.class);	
+				failed=true;
 			}
 			try {
 				return new Long(new Double(from.toString()).longValue());
 			} catch (Exception e) {
-				//nooop
+				fail(from, Long.class, long.class);	
+				failed=true;
 			}
 		}
 		if (targetClassType == Character.class || targetClassType == char.class) {
@@ -637,6 +652,16 @@ public class CommandLineParser{
 			return result;
 		}
 		
+		if (failed && targetClassType.isPrimitive()) {
+			logger.error("Could (finally) not convert \"" + from + "\" to primitive type " + targetClassType + ". Giving up (returning null)...");
+			return null;
+		}
+		
+		if (failed) {
+			logger.error("Failed at least one built-in conversion. This will probably cause an exception in a few milliseconds ...");
+		}
+		
+
 		// TODO: add either possible external converters (preferred), or support for DefaultMatrix, DefaultVector, and other RTM-classes
 		logger.info("No explicit converter found - looking for public static convert() method in target class...");
 		
@@ -650,9 +675,9 @@ public class CommandLineParser{
 				if (invoke != null && invoke.getClass().isAssignableFrom(targetClassType)) {
 					logger.info("Success: Object converted!");
 					return invoke;
-				} else {
-					logger.info("static method found according to specification. However: either the reference returned is null, or the returned type (" + invoke==null?"null":invoke.getClass() + ") is not the expected one (" +targetClassType + ").");
-				}
+				} 
+				logger.info("static method found according to specification. However: either the reference returned is null, or the returned type (" + invoke==null?"null":invoke.getClass() + ") is not the expected one (" +targetClassType + ").");
+				
 			}
 		} catch (Exception e) {
 			logger.info("An error occurred while looking for a static convert(Object): " + targetClassType.getCanonicalName() + " Method in class " + targetClassType.getCanonicalName() + " (Error was: " + e.getMessage() + " while trying to convert from type " + sourceClazz.getCanonicalName() + "). Consider creating it!", e);

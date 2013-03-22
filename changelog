@@ -1,0 +1,14 @@
+
+
+
+1.0.4
+* Added changelog
+* Improved Error message when automatic, built-in conversions failed
+
+1.0.3
+* Added intelligent ClassCastException to de.ismll.console.Generic
+
+1.0.2
+
+1.0.1
+* Initial release
