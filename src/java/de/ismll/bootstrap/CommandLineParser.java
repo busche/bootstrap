@@ -672,7 +672,7 @@ public class CommandLineParser{
 				Object invoke = convertMethod.invoke(null, from);
 				logger.debug("Returned object is of type " + (invoke==null?"null":invoke.getClass()));
 				
-				if (invoke != null && invoke.getClass().isAssignableFrom(targetClassType)) {
+				if (invoke != null && targetClassType.isAssignableFrom(invoke.getClass())) {
 					logger.info("Success: Object converted!");
 					return invoke;
 				} 
@@ -683,6 +683,7 @@ public class CommandLineParser{
 			logger.info("An error occurred while looking for a static convert(Object): " + targetClassType.getCanonicalName() + " Method in class " + targetClassType.getCanonicalName() + " (Error was: " + e.getMessage() + " while trying to convert from type " + sourceClazz.getCanonicalName() + "). Consider creating it!", e);
 		}
 		
+		// TODO: more intelligent error message here. Case not caught: convert() throwed an error (causes wrong error message)
 		logger.fatal("Invalid conversion: " + from.getClass().toString() + " to " + targetClassType.toString() + ": probably not implemented ....");
 		System.exit(1);
 		return new IllegalArgumentException("target class type not supported!");

@@ -1,5 +1,7 @@
 
 
+1.0.5
+* Fixed Bug: Inheritance for member fields works.
 
 1.0.4
 * Added changelog
