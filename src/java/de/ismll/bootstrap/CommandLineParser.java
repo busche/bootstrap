@@ -679,6 +679,10 @@ public class CommandLineParser{
 				logger.info("static method found according to specification. However: either the reference returned is null, or the returned type (" + invoke==null?"null":invoke.getClass() + ") is not the expected one (" +targetClassType + ").");
 				
 			}
+		} catch (InvalidConversionFormatException e) {
+			e.setSourceType(sourceClazz);
+			e.setTargetType(targetClassType);
+			throw e;
 		} catch (Exception e) {
 			logger.info("An error occurred while looking for a static convert(Object): " + targetClassType.getCanonicalName() + " Method in class " + targetClassType.getCanonicalName() + " (Error was: " + e.getMessage() + " while trying to convert from type " + sourceClazz.getCanonicalName() + "). Consider creating it!", e);
 		}
