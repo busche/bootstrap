@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.junit.internal.builders.AnnotatedBuilder;
 
 /**
  * @author Martin Ortmann (initial version), Andre Busche (various extensions)
