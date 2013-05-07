@@ -13,7 +13,7 @@ public class Generic {
 
 	static Logger log = LogManager.getLogger(Generic.class);
 	
-	public static void main(String[] args) throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public static void main(String[] args) throws ClassNotFoundException, SecurityException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		if (args.length<1) {
 			log.fatal("Need at least one parameter");
 			System.exit(3);

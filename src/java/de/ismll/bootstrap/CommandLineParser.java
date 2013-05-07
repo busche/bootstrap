@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.junit.internal.builders.AnnotatedBuilder;
 
 /**
  * @author Martin Ortmann (initial version), Andre Busche (various extensions)
@@ -868,4 +869,45 @@ public class CommandLineParser{
 		
 		return ret;
 	}
+
+//	/**
+//	 * the Parameter annotation for the object bootstrap_enabled_object whose field value is val.
+//	 * 
+//	 * @param bootstrap_enabled_object
+//	 * @param reference
+//	 * @return
+//	 */
+//	static Parameter getAnnotation(Object bootstrap_enabled_object, Object val) {
+//		
+//		Class<? extends Object> targetObjectClazz = bootstrap_enabled_object.getClass();
+//		while (!targetObjectClazz.equals(Object.class)) {
+//
+//			Field[] fields = targetObjectClazz.getDeclaredFields();
+//			for(Field field : fields){
+//				Parameter annotation = field.getAnnotation(Parameter.class);
+//			
+//				if (annotation == null) continue;
+//
+//				Object fieldValue;
+//				try {
+//					fieldValue = field.get(bootstrap_enabled_object);
+//				} catch (IllegalArgumentException e) {
+//					logger.debug(e);
+//					continue;
+//				} catch (IllegalAccessException e) {
+//					logger.debug(e);
+//					continue;
+//				}
+//				
+//				if (fieldValue  == val) {
+//					return annotation;
+//				}
+//				
+//				
+//			}
+//			targetObjectClazz=targetObjectClazz.getSuperclass();
+//		}
+//		
+//		return null;
+//	}
 }

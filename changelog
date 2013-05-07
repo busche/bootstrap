@@ -1,4 +1,8 @@
 
+1.1
+* Introduced de.ismll.stub.AbstractProxy, see http://tech4research.wordpress.com/2013/05/06/indirect-support-for-interfaces-in-bootstrap/ for usage
+* Introduced de.ismll.bootstrap.BootstrapAssertions 
+* Added TestSuite AllTests 
 
 1.0.5
 * Fixed Bug: Inheritance for member fields works.

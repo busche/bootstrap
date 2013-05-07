@@ -21,8 +21,6 @@ public class TestInstantiations {
 			Assert.fail(e.getMessage() + " unexpected");
 		} catch (SecurityException e) {
 			Assert.fail(e.getMessage() + " unexpected");
-		} catch (NoSuchMethodException e) {
-			Assert.fail(e.getMessage() + " unexpected");
 		} catch (IllegalArgumentException e) {
 			Assert.fail(e.getMessage() + " unexpected");
 		} catch (IllegalAccessException e) {
@@ -44,8 +42,6 @@ public class TestInstantiations {
 		} catch (ClassNotFoundException e) {
 			Assert.fail(e.getMessage() + " unexpected");
 		} catch (SecurityException e) {
-			Assert.fail(e.getMessage() + " unexpected");
-		} catch (NoSuchMethodException e) {
 			Assert.fail(e.getMessage() + " unexpected");
 		} catch (IllegalArgumentException e) {
 			Assert.fail(e.getMessage() + " unexpected");

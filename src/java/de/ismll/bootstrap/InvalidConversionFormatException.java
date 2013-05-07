@@ -1,24 +1,28 @@
 package de.ismll.bootstrap;
 
-public class InvalidConversionFormatException extends RuntimeException {
+public class InvalidConversionFormatException extends BootstrapException {
 
 	private Class<?> sourceType;
 	private Class<?> targetType;
 	private Object sourceString;
 	private Object expectedPattern;
 	
-	public InvalidConversionFormatException(Object sourceString, Object expectedPattern) {
+	public InvalidConversionFormatException(Object bootstrapEnabledObject, Object sourceString, Object expectedPattern) {
+		super(bootstrapEnabledObject);
 		this.sourceString = sourceString;
 		this.expectedPattern = expectedPattern;
 	}
 	
-	String msg;
+	private String msg;
 	
 	@Override
 	public String getMessage() {
 		if (msg != null) return msg;
 		
 		StringBuilder sb = new StringBuilder();
+		if (super.bootstrapEnabledObject!=null) {
+			sb.append("Bootstrap Exception while working in object class " + super.bootstrapEnabledObject.getClass().getCanonicalName() + ": ");
+		}
 		if (sourceType !=null && targetType!=null) {
 			sb.append("Invalid conversion from " + sourceType + " to " + targetType + ": ");
 		}
