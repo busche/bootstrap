@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import de.ismll.bootstrap.BootstrapException;
 import de.ismll.bootstrap.CommandLineParser;
 
 public class Generic {
@@ -61,6 +62,9 @@ public class Generic {
 				if (!bootstraperror)
 					throw e;
 				return;
+			} catch (BootstrapException e) {
+				Object bootstrapEnabledObject = e.getBootstrapEnabledObject();
+				log.error("Caught bootstrap exception " + (bootstrapEnabledObject!=null?" on object " + bootstrapEnabledObject.toString() + " ":""), e);
 			} catch (InstantiationException e) {
 				log.error("Could not instantiate " + forName + ". Public, parameterless constructor present?");
 			} catch (RuntimeException e) {
