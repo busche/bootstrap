@@ -37,8 +37,8 @@ public class CommandLineParser{
 	private static final char ARRAY_START = '[';
 	private static final String ARRAY_END_STRING = ARRAY_END + "";
 	private static final String ARRAY_START_STRING = ARRAY_START + "";
-	private static String ARRAY_DELIMITER = null;
-	private static final char ARRAY_DELIMITER_CHAR;
+	public static String ARRAY_DELIMITER = null;
+	public static final char ARRAY_DELIMITER_CHAR;
 	private static String SVN_VERSION="";
 	private static String MODULE_VERSION="";
 	
