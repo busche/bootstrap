@@ -37,14 +37,15 @@ public class Generic {
 			method.invoke(null, new Object[] {args});
 		} else {
 			log.info("No main()-method was found. Checking for Runnable implementation");
+			Runnable implemetation=null;
 			try {
 				Class<? extends Runnable> asSubclass = forName.asSubclass(Runnable.class);
 				log.info(asSubclass + " implements Runnable. Instantiating ...");
-				Runnable newInstance = asSubclass.newInstance();
+				implemetation = asSubclass.newInstance();
 				log.debug("Instantiated. Parsing command line options ...");
-				CommandLineParser.parseCommandLine(args, newInstance);
+				CommandLineParser.parseCommandLine(args, implemetation);
 				log.info("Parameters parsed. Calling run()-method.");
-				newInstance.run();
+				implemetation.run();
 				log.info("Finished.");
 			} catch (ClassCastException e) {
 				StackTraceElement[] stackTrace = e.getStackTrace();
@@ -64,7 +65,12 @@ public class Generic {
 				return;
 			} catch (BootstrapException e) {
 				Object bootstrapEnabledObject = e.getBootstrapEnabledObject();
+				if (bootstrapEnabledObject == null) {
+					bootstrapEnabledObject=implemetation;
+				}
 				log.error("Caught bootstrap exception " + (bootstrapEnabledObject!=null?" on object " + bootstrapEnabledObject.toString() + " ":""), e);
+				if (bootstrapEnabledObject != null)
+					CommandLineParser.printCommandLineHelp(bootstrapEnabledObject);
 			} catch (InstantiationException e) {
 				log.error("Could not instantiate " + forName + ". Public, parameterless constructor present?");
 			} catch (RuntimeException e) {

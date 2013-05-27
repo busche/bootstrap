@@ -6,6 +6,7 @@
 #$ -o logs/output.$JOB_NAME.$TASK_ID.txt
 #$ -e logs/output.$JOB_NAME.$TASK_ID.err
 #$ -p -100
+#$ -R y
 
 
 #export JAVA_HOME=/usr/java/latest

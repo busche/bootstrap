@@ -245,7 +245,7 @@ public class CommandLineParser{
 		out.println();
 		out.println("Bootstrap version from " + MODULE_VERSION + " (Revision " + SVN_VERSION + ")");
 		out.println();
-		out.println("Listing command line parameters. They are evaluated by using Parameter=<some-value>.");
+		out.println("Listing command line parameters for class " + clazz.getCanonicalName() + ". They are evaluated by using Parameter=<some-value>.");
 		out.println();
 		out.println(String.format("%1$" + maxLengthCmdLine + "s | %2$" + maxLengthFieldType + "s | Description", "Parameter", "Java-Type"));
 		out.println();
@@ -485,7 +485,8 @@ public class CommandLineParser{
 	}
 
 	public static Object convert(Object from, Class<?> targetClassType) {
-		logger.debug("Converting from " + from.getClass() + " to " + targetClassType);
+		if (logger.isDebugEnabled())
+			logger.debug("Converting from " + from.getClass() + " to " + targetClassType);
 		// TODO: Trace the impossibility of conversion (e.g., "asdlkf" cannot be parsed as an int)
 		boolean failed = false;
 		
@@ -682,6 +683,10 @@ public class CommandLineParser{
 		} catch (InvalidConversionFormatException e) {
 			e.setSourceType(sourceClazz);
 			e.setTargetType(targetClassType);
+			throw e;
+		} catch (InvocationTargetException e) {
+			throw new BootstrapException(e);
+		} catch (BootstrapException e) {
 			throw e;
 		} catch (Exception e) {
 			logger.info("An error occurred while looking for a static convert(Object): " + targetClassType.getCanonicalName() + " Method in class " + targetClassType.getCanonicalName() + " (Error was: " + e.getMessage() + " while trying to convert from type " + sourceClazz.getCanonicalName() + "). Consider creating it!", e);

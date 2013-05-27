@@ -2,6 +2,10 @@ package de.ismll.bootstrap;
 
 public class BootstrapException extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8215318662956331221L;
 
 	public BootstrapException() {
 		super();
