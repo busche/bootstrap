@@ -108,6 +108,7 @@ public class CommandLineParser{
 			String string =args[i];
 			if(string.toLowerCase().equals("-debug")){
 				debug=true;
+				logger.warn("The usage of -debug is deprecated. Please adjust the log level accordingly.");
 				usedMask[i]=true;
 				continue;
 			}
