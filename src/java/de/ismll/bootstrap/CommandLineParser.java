@@ -719,7 +719,10 @@ public class CommandLineParser{
 
 		
 		for (Method m : fromMethods){
-			if(m.getName().startsWith("get") && Modifier.isPublic(m.getModifiers())) {
+			if((m.getName().startsWith("get") && Modifier.isPublic(m.getModifiers()))
+					// allow "isBoolean()" beans constructs for boolean return types
+					|| (m.getName().startsWith("is") && (m.getReturnType().equals(Boolean.class) || m.getReturnType().equals(boolean.class)) && Modifier.isPublic(m.getModifiers()))
+					) {
 				String fieldName = m.getName().substring(3,4).toLowerCase() + m.getName().substring(4);
 				
 				Field found = null;
@@ -828,8 +831,18 @@ public class CommandLineParser{
 		return parseMap(in, ',', '=');
 	}
 
-	public static Map<String, Object> parseMap(String in, char keyValueDelimiter, char assignment) {
-		String[] split = in.substring(0, in.length()).split("" + keyValueDelimiter);
+	/**
+	 * parses the given String in according to the following syntax:
+	 * 
+	 * <pre>"key1"assignment"value1"tokenDelimiter"key2"assignment"value2"tokenDelimiter"key3"assignment"value3"</pre>
+	 * 
+	 * @param in
+	 * @param tokenDelimiter
+	 * @param assignment
+	 * @return
+	 */
+	public static Map<String, Object> parseMap(String in, char tokenDelimiter, char assignment) {
+		String[] split = in.substring(0, in.length()).split("" + tokenDelimiter);
 		Map<String, Object> ret = new TreeMap<String, Object>();
 		
 		List<String> split2 = new ArrayList<String>();
@@ -851,7 +864,7 @@ public class CommandLineParser{
 				skip = false;
 				sb.append(currentChar);
 			} else
-			if (currentChar == keyValueDelimiter && !skip) {
+			if (currentChar == tokenDelimiter && !skip) {
 				ret.put(key, sb.toString());
 				sb.setLength(0);
 				key=null;
