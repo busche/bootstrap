@@ -13,4 +13,4 @@ module.name=bootstrap
 
 build.major.number=1
 build.minor.number=1
-build.revision.number=3
+build.revision.number=4

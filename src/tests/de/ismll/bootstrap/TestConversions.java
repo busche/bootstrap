@@ -6,8 +6,9 @@ import java.util.Arrays;
 import java.util.Random;
 
 import org.junit.Assert;
-
 import org.junit.Test;
+
+import de.ismll.bootstrap.oo.AbstractA;
 
 /**
  * TODO: Add tests for custom conversions
@@ -226,7 +227,27 @@ public class TestConversions {
 		}
 	}
 
-	
+	@Test
+	public void testGenericObject(){
+		// only works, as URIs are not supported built-in
+		AbstractA[] target = {
+				AbstractA.convert("aimpl"),
+				AbstractA.convert("aimpl"),		
+		};
+		String[] from = {
+				"aimpl",
+				"aimpl",		
+		};
+		
+		AbstractA[] conversion = (AbstractA[]) CommandLineParser.convert(from, AbstractA[].class);
+//		System.out.println(Arrays.);
+
+		for (int i = 0; i < conversion.length; i++) {
+			Assert.assertEquals(target[i].getAbstracta(), conversion[i].getAbstracta());
+			Assert.assertEquals(target[i].getClass(), conversion[i].getClass());
+			Assert.assertTrue(target[i].equals(conversion[i]));
+		}
+	}
 
 //	@Test
 //	public void testFile(){

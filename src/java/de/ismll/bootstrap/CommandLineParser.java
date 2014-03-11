@@ -693,6 +693,26 @@ public class CommandLineParser{
 			return result;
 		}
 		
+		try{
+			if (targetClassType.isArray()) {
+				Class<?> componentType = targetClassType.getComponentType();
+				
+				// non-supported, generic object ...
+				System.out.println("non-supported, generic Object...");
+				
+				int length = Array.getLength(from);
+				Object result = Array.newInstance(componentType, length);
+//				new Object[Array.getLength(from)];
+				for (int i = 0; i < length; i++) {
+					Array.set(result, i, convert(Array.get(from, i), componentType));
+				}
+				
+				return result;
+			}
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+		}
+		
 		if (failed && targetClassType.isPrimitive()) {
 			logger.error("Could (finally) not convert \"" + from + "\" to primitive type " + targetClassType + ". Giving up (returning null)...");
 			return null;

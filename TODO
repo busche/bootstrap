@@ -4,12 +4,8 @@ Concrete Ideas
 
 Ranked by importance (-- least to ++ highest)
 
-++ More intelligent error message if no converter was found
-++ Add error / notification message, if no public getters / setters are present (as a hint for debugging) / Schilling 2013-05-17
-++ Restart-Flag: (-restart): Prints the command line on Stdout for re-starting the job
 + Convert command line parsing functionality into "well-known" format: -parameter1 arg -parameter2 -parameter3 arg
 - Add @Convert Annotation instead of public static <T> convert(Object in) method
-+ custom type conversions for array types
 - Expand runnables - seeks for Runnable-implementations in the classpath and creates shell scripts for it.
 
 
