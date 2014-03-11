@@ -383,6 +383,8 @@ public class CommandLineParser{
 		boolean param_found;			
 		
 		Class<? extends Object> targetObjectClazz = obj.getClass();
+		
+		// iterate over type hierarchy
 		while (!targetObjectClazz.equals(Object.class)) {
 			Field[] fields = targetObjectClazz.getDeclaredFields();
 			for(Field field : fields){
@@ -398,7 +400,7 @@ public class CommandLineParser{
 				parameters.remove(cmd);
 				
 				if(m == null) {
-					logger.debug("Could not parse " + cmd);
+					logger.warn("Field name " + field.getName() + " is annotated by a @Parameter annotation (key: \"" + cmd + "\") but does not provide a Bean-compatible setter method. This is probably not what you want ...");
 					continue;
 				}
 				if(param_value == null) {
