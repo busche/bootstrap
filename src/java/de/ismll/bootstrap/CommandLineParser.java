@@ -101,6 +101,8 @@ public class CommandLineParser{
 		
 		logger.debug("This version was compiled on " + MODULE_VERSION + " (Version " + SVN_VERSION + ")");
 		
+		boolean printRestartCmdlineString = false;
+		
 		boolean usedMask[] = new boolean[args.length];
 		Arrays.fill(usedMask, false);
 				
@@ -114,6 +116,10 @@ public class CommandLineParser{
 			}
 			if(string.toLowerCase().equals("-help")){
 				help=true;
+				usedMask[i]=true;
+			}
+			if(string.toLowerCase().equals("-restart")){
+				printRestartCmdlineString=true;
 				usedMask[i]=true;
 			}
 		}
@@ -186,6 +192,37 @@ public class CommandLineParser{
 		
 		applyArguments(obj, cmdArgs);
 		
+		if (printRestartCmdlineString) {
+			logger.info("Command line for re-starting: " + parameters2Cmdline(cmdArgs, param_name, varargs));
+		}
+	}
+
+	private static String parameters2Cmdline(HashMap<String, Object> keyValueMap,
+			String varargParametername, List<String> varargs) {
+		// note: varargParametername is only meaningful if varargs != null. It is only the last parameter key given.
+		StringBuilder sb = new StringBuilder();
+		for (Entry<String, Object> e : keyValueMap.entrySet()) {
+			String key= e.getKey().trim();
+			sb.append(key);
+			sb.append('=');
+			
+			Object value = e.getValue();
+			sb.append(value.toString());
+			if (!(value instanceof String)) {
+				logger.warn("Non-String value encountered for key " + key + ". You will probably see the hashCode object representation rather than a valid command line String.");
+			}
+			sb.append(' ');
+		}
+
+		if (varargs != null) {
+			sb.append(" -");
+			sb.append(varargParametername);
+			for (String s : varargs) {
+				sb.append(' ');
+				sb.append(s);
+			}
+		}
+		return sb.toString();
 	}
 
 	public static void printCommandLineHelp(Object obj) {

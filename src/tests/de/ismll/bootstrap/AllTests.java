@@ -4,7 +4,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ TestCmdlineParsing.class, TestConversions.class, TestInstantiations.class, TestOO.class, TestHelpScreen.class })
+@SuiteClasses({ TestCmdlineParsing.class, TestConversions.class, TestInstantiations.class, TestOO.class, TestHelpScreen.class, TestRestartCommand.class })
 public class AllTests {
 
 } 
