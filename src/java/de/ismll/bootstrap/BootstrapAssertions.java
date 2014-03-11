@@ -10,23 +10,6 @@ package de.ismll.bootstrap;
  */
 public class BootstrapAssertions {
 
-	// public final static void notNull(Object bootstrap_enabled_object, Object
-	// reference) throws BootstrapException{
-	// if (reference==null) {
-	// if (bootstrap_enabled_object!=null) {
-	// CommandLineParser.printCommandLineHelp(bootstrap_enabled_object);
-	// }
-	// BootstrapException throwThis;
-	// Parameter p = CommandLineParser.getAnnotation(bootstrap_enabled_object,
-	// reference);
-	//
-	// throwThis = new BootstrapException("The variable annotated with " +
-	// p.cmdline() + " should not have had a null value!");
-	// throwThis.setBootstrapEnabledObject(bootstrap_enabled_object);
-	// throw throwThis;
-	// }
-	// }
-
 	/**
 	 * Throws an appropriate BootstrapException if reference is null. Otherwise,
 	 * does nothing. If bootstrap_enabled_object is not null, and the code is
