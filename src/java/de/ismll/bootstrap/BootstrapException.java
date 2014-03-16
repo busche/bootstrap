@@ -6,7 +6,7 @@ package de.ismll.bootstrap;
  * This Exception class inherits all superclass constructors, but should preferably be instantiated using {@link BootstrapException#BootstrapException(Object)} as this is caught and nicely printed by the {@link Generic} launcher class.  
  * 
  * 
- * @author André Busche
+ * @author AndrÃ© Busche
  *
  */
 public class BootstrapException extends RuntimeException {

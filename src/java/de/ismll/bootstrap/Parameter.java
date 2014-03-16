@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
  * conversion by means of the convert() method.
  * 
  * 
- * @author André Busche
+ * @author AndrÃ© Busche
  * 
  */
 @Retention(RetentionPolicy.RUNTIME)
