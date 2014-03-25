@@ -1,6 +1,5 @@
 package de.ismll.bootstrap;
 
-import java.io.File;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Random;
