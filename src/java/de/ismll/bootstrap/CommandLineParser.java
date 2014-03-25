@@ -901,7 +901,7 @@ public class CommandLineParser{
 	 * @return
 	 */
 	public static Map<String, Object> parseMap(String in, char tokenDelimiter, char assignment) {
-		String[] split = in.substring(0, in.length()).split("" + tokenDelimiter);
+//		String[] split = in.substring(0, in.length()).split("" + tokenDelimiter);
 		Map<String, Object> ret = new TreeMap<String, Object>();
 		
 //		List<String> split2 = new ArrayList<String>();
