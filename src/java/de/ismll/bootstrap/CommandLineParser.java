@@ -470,12 +470,16 @@ public class CommandLineParser{
 						}
 						
 						Object returnvalue = m.invoke(obj,targetArray);
-						
+						if (returnvalue != null) {
+							reportReturnValue(m, obj, returnvalue);
+						}
 					} else { 
-						@SuppressWarnings("unused")
 						Object convertedValue = convert(param_value,type);
 						if (convertedValue!=null) {
 							Object returnvalue = m.invoke(obj,convertedValue);
+							if (returnvalue != null) {
+								reportReturnValue(m, obj, returnvalue);
+							}
 						}
 					}
 					
@@ -507,6 +511,11 @@ public class CommandLineParser{
 	}
 	
 	
+	private static void reportReturnValue(Method m, Object obj,
+			Object returnvalue) {
+		logger.info("Ignoring return value " + returnvalue.toString() + " of method " + m.toString() + (obj!=null ? " of object " + obj.toString() : ""));
+	}
+
 	private static void printCapabilities(Object obj){
 		Field[] fields = obj.getClass().getDeclaredFields();
 		
