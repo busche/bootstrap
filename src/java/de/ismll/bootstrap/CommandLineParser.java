@@ -520,10 +520,6 @@ public class CommandLineParser{
 		logger.warn("Failed to convert \"" + from + "\" to type " + object + (primitive!=null?" or " + primitive:"") + " ... trying further possible converters ...");
 	}
 	
-	private static final void fail(Object from, Class<?> object) {
-		fail(from, object, null);
-	}
-
 	public static Object convert(Object from, Class<?> targetClassType) {
 		if (logger.isDebugEnabled())
 			logger.debug("Converting from " + from.getClass() + " to " + targetClassType);
