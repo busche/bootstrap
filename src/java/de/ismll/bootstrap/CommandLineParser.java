@@ -904,7 +904,7 @@ public class CommandLineParser{
 		String[] split = in.substring(0, in.length()).split("" + tokenDelimiter);
 		Map<String, Object> ret = new TreeMap<String, Object>();
 		
-		List<String> split2 = new ArrayList<String>();
+//		List<String> split2 = new ArrayList<String>();
 		
 		StringBuffer sb = new StringBuffer();
 		String key=null;
