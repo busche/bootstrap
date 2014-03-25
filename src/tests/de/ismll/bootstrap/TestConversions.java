@@ -28,6 +28,7 @@ public class TestConversions {
 	}
 	
 	@Test
+	// FIXME: There is a bug in this test. However - it could not be identified on 2014-03-25 when fixing Math.random() to the extremes.
 	public void testCharArray(){
 		// offset 33: avoid ASCII-space (32)
 		char[] value = {
