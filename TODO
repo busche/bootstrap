@@ -6,7 +6,6 @@ Ranked by importance (-- least to ++ highest)
 
 + Convert command line parsing functionality into "well-known" format: -parameter1 arg -parameter2 -parameter3 arg
 - Add @Convert Annotation instead of public static <T> convert(Object in) method
-- Expand runnables - seeks for Runnable-implementations in the classpath and creates shell scripts for it.
 
 
 Vage Ideas
