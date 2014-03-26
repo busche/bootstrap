@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -26,6 +27,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 /**
  * @author Martin Ortmann (initial version), Andre Busche (various extensions)
@@ -40,46 +42,75 @@ public class CommandLineParser{
 	public static String ARRAY_DELIMITER = null;
 	public static final char ARRAY_DELIMITER_CHAR;
 	private static String SVN_VERSION="";
+	private static String KEY_SVN_VERSION="svn.version";
 	private static String MODULE_VERSION="";
+	private static String KEY_MODULE_VERSION="module.version";
 	
+	private static Logger logger = LogManager.getLogger(CommandLineParser.class);
+
 	static {
 		String t = System.getProperty(CommandLineParser.class.toString() + ".arrayDelimiter");
 		ARRAY_DELIMITER=(t==null?",":t);
 		ARRAY_DELIMITER_CHAR=ARRAY_DELIMITER.charAt(0);
 		
-		InputStream resourceAsStream = CommandLineParser.class.getResourceAsStream("version.info");
-		byte[] b = new byte[10];
+		InputStream resource = CommandLineParser.class.getResourceAsStream("/application.properties");
+		
+		if (null != resource) {			
+			Properties p = new Properties();
+			try {
+				p.load(resource);
+				Object valueSvnVersion = p.get(KEY_SVN_VERSION);
+				if (null != valueSvnVersion)
+					SVN_VERSION=valueSvnVersion.toString();
+				Object valueModuleVersion = p.get(KEY_MODULE_VERSION);
+				if (null != valueSvnVersion)
+					MODULE_VERSION=valueModuleVersion.toString();
+			} catch (IOException e1) {
+				logger.warn("Failed to read from /application.properties file to load Bootstrap metadata.");
+				e1.printStackTrace();
+			} finally {
+				if (null != resource) {
+					try {
+						resource.close();
+					} catch (IOException e) {
+						//noop
+					}
+				}
+			}
+		}
+		
 
-		if (null!=resourceAsStream) {
-			try {
-				int read = resourceAsStream.read(b);
-				SVN_VERSION=new String(b, 0, read);
-			} catch (IOException e) {
-			} finally {
-				try {
-					resourceAsStream.close();
-				} catch (IOException e) {
-					//noop
-				}
-			}
-		}
-		resourceAsStream = CommandLineParser.class.getResourceAsStream("module.info");
-		if (null!=resourceAsStream) {
-			try {
-				int read = resourceAsStream.read(b);
-				MODULE_VERSION = new String(b, 0, read);
-			} catch (IOException e) {
-			} finally {
-				try {
-					resourceAsStream.close();
-				} catch (IOException e) {
-					// noop
-				}
-			}
-		}
+
+//		logger.debug("debug");
+//		logger.info("info");
+//		logger.warn("warn");
+//		logger.error("error");
+//		
+//		try {
+//			resource = CommandLineParser.class.getResourceAsStream("/log4j.properties");
+//			if (null != resource) {
+//				System.out.println("log4j properties found.");
+//				Properties log4jDefaultProperties = new Properties();
+//				log4jDefaultProperties.load(resource);
+//				PropertyConfigurator.configure(log4jDefaultProperties);
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//			if (null != resource)
+//				try {
+//					resource.close();
+//				} catch (IOException e) {
+//					//noop
+//				}
+//		}
+//
+//		logger.debug("debug");
+//		logger.info("info");
+//		logger.warn("warn");
+//		logger.error("error");
 	}
 
-	private static Logger logger = LogManager.getLogger(CommandLineParser.class);
 
 //	public static boolean debug;
 	private static boolean help;
