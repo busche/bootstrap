@@ -15,8 +15,8 @@
 		<!-- do not change these properties here, do change project.properties file, instead -->
 
 		<property name="build.path" value="build"/>
-		<property name="source.java" value="${basedir}/src/java" />
-		<property name="tests.java" value="${basedir}/src/tests" />
+		<property name="source.java" value="${basedir}/src/main/java" />
+		<property name="tests.java" value="${basedir}/src/test/java" />
 		<property name="examples.java" value="${basedir}/src/examples" />
 
 		<patternset id="thirdparty.patternset">
