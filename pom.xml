@@ -6,14 +6,20 @@
 	<version>1.1.2</version>
 	<url>http://bootstrap.busche-it.de</url>
 	<name>Bootstrap</name>
-  <packaging>jar</packaging>
+	<packaging>jar</packaging>
 
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -22,6 +28,51 @@
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<version>2.4</version>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>de.ismll.console.Generic</mainClass>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- NOTE: We don't need a groupId specification because the group is 
+					org.apache.maven.plugins ...which is assumed by default. -->
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<!-- <descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> 
+						</descriptorRefs> -->
+					<!-- <descriptors>
+						<descriptor>${basedir}/src/main/assembly/outputfolder.xml</descriptor>
+					</descriptors> -->
+					<archive>
+						<manifest>
+							<mainClass>com.company.widget.Main</mainClass>
+							<packageName>com.company.widget</packageName>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptor>${basedir}/src/main/assembly/outputfolder.xml</descriptor>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 		<extensions>
@@ -56,6 +107,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<distributionManagement>
