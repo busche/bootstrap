@@ -27,7 +27,6 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 /**
  * @author Martin Ortmann (initial version), Andre Busche (various extensions)
@@ -39,7 +38,7 @@ public class CommandLineParser{
 	private static final char ARRAY_START = '[';
 	private static final String ARRAY_END_STRING = ARRAY_END + "";
 	private static final String ARRAY_START_STRING = ARRAY_START + "";
-	public static String ARRAY_DELIMITER = null;
+	public static final String ARRAY_DELIMITER;
 	public static final char ARRAY_DELIMITER_CHAR;
 	private static String SVN_VERSION="";
 	private static String KEY_SVN_VERSION="svn.version";
@@ -69,12 +68,10 @@ public class CommandLineParser{
 				logger.warn("Failed to read from /application.properties file to load Bootstrap metadata.");
 				e1.printStackTrace();
 			} finally {
-				if (null != resource) {
-					try {
-						resource.close();
-					} catch (IOException e) {
-						//noop
-					}
+				try {
+					resource.close();
+				} catch (IOException e) {
+					//noop
 				}
 			}
 		}
@@ -576,13 +573,13 @@ public class CommandLineParser{
 		
 		if(targetClassType == Short.class || targetClassType == short.class) {
 			try {
-				return new Short(from.toString());
+				return Short.valueOf(from.toString());
 			} catch (Exception e) {
 				fail(from, Short.class, short.class);
 				failed=true;
 			}
 			try {
-				return new Short(new Double(from.toString()).shortValue());
+				return Short.valueOf(new Double(from.toString()).shortValue());
 			} catch (Exception e) {
 				fail(from, Short.class, short.class);	
 				failed=true;
@@ -590,13 +587,13 @@ public class CommandLineParser{
 		}
 		if(targetClassType == Integer.class || targetClassType == int.class) {
 			try {
-				return new Integer(from.toString());
+				return Integer.valueOf(from.toString());
 			} catch (Exception e) {
 				fail(from, Integer.class, int.class);	
 				failed=true;
 			}
 			try {
-				return new Integer(new Double(from.toString()).intValue());
+				return Integer.valueOf(new Double(from.toString()).intValue());
 			} catch (Exception e) {
 				fail(from, Integer.class, int.class);	
 				failed=true;
@@ -604,20 +601,20 @@ public class CommandLineParser{
 		}
 		if(targetClassType == Long.class || targetClassType == long.class) {
 			try {
-				return new Long(from.toString());
+				return Long.valueOf(from.toString());
 			} catch (Exception e) {
 				fail(from, Long.class, long.class);	
 				failed=true;
 			}
 			try {
-				return new Long(new Double(from.toString()).longValue());
+				return Long.valueOf(new Double(from.toString()).longValue());
 			} catch (Exception e) {
 				fail(from, Long.class, long.class);	
 				failed=true;
 			}
 		}
 		if (targetClassType == Character.class || targetClassType == char.class) {
-			return new Character(from.toString().charAt(0));
+			return Character.valueOf(from.toString().charAt(0));
 		}
 		if (targetClassType == Double.class || targetClassType == double.class) {
 			return new Double(from.toString());			
@@ -711,7 +708,7 @@ public class CommandLineParser{
 			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			int result[] = new int[strings.length];
 			for (int i = 0; i < result.length; i++) {
-				result[i] = Integer.valueOf(strings[i].trim()).intValue();
+				result[i] = Integer.parseInt(strings[i].trim());
 			}
 			return result;
 		}
@@ -719,7 +716,7 @@ public class CommandLineParser{
 			String[] strings = from.toString().replace(ARRAY_START_STRING, "").replace(ARRAY_END_STRING, "").split(ARRAY_DELIMITER);
 			long result[] = new long[strings.length];
 			for (int i = 0; i < result.length; i++) {
-				result[i] = Long.valueOf(strings[i].trim()).longValue();
+				result[i] = Long.parseLong(strings[i].trim());
 			}
 			return result;
 		}
