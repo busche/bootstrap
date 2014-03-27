@@ -15,7 +15,7 @@ public class LaunchConfig {
 
 	private static Logger logger = LogManager.getLogger(LaunchConfig.class);
 
-	public static String PREFIX;
+	public static final String PREFIX;
 	
 	public static final String CLASS_NAME = "launch.class";
 	
@@ -26,9 +26,7 @@ public class LaunchConfig {
 //			CLASS_NAME = PREFIX + ".class";
 //		}
 		PREFIX=System.getProperty(LaunchConfig.class.getName() + ".prefix", "launch");
-		if (PREFIX == null) {
-			PREFIX="";
-		} 
+		 
 	}
 	
 	public static void main(String[] args) {
