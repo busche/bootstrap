@@ -113,12 +113,6 @@ public class CommandLineParser{
 	private static boolean help;
 
 	/**
-	 * Use the debug-level of the logger instead.
-	 */
-	@Deprecated
-	public static boolean debug;
-
-	/**
 	 * TODO: some time implement a new style like 
 	 * 
 	 * -parameter value 
@@ -140,8 +134,8 @@ public class CommandLineParser{
 		for (int i = 0; i < args.length; i++) {
 			String string =args[i];
 			if(string.toLowerCase().equals("-debug")){
-				debug=true;
-				logger.warn("The usage of -debug is deprecated. Please adjust the log level accordingly.");
+				logger.setLevel(Level.DEBUG);
+				logger.debug("Overriding log4j configuration and forcibly setting this loggers level to DEBUG.");
 				usedMask[i]=true;
 				continue;
 			}
@@ -153,12 +147,6 @@ public class CommandLineParser{
 				printRestartCmdlineString=true;
 				usedMask[i]=true;
 			}
-		}
-		
-		
-		// remove debug switch from args to avoid errors
-		if(debug){
-			logger.setLevel(Level.DEBUG);
 		}
 		
 		if (help) {
@@ -772,9 +760,11 @@ public class CommandLineParser{
 				Object invoke = convertMethod.invoke(null, from);
 				logger.debug("Returned object is of type " + (invoke==null?"null":invoke.getClass()));
 				
-				if (invoke != null && targetClassType.isAssignableFrom(invoke.getClass())) {
-					logger.info("Success: Object converted!");
-					return invoke;
+				if (invoke != null) {
+					if (targetClassType.isAssignableFrom(invoke.getClass())) {
+						logger.info("Success: Object converted!");
+						return invoke;
+					}
 				} 
 				logger.info("static method found according to specification. However: either the reference returned is null, or the returned type (" + invoke==null?"null":invoke.getClass() + ") is not the expected one (" +targetClassType + ").");
 				
