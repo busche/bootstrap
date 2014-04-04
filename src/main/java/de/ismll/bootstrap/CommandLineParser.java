@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 /**
  * @author Martin Ortmann (initial version), Andre Busche (various extensions)
@@ -538,9 +539,15 @@ public class CommandLineParser{
 	private static void printCapabilities(Object obj){
 		Field[] fields = obj.getClass().getDeclaredFields();
 		
+		boolean infoEnabled = logger.isEnabledFor(Level.INFO);
+		
 		for(Field field : fields){
 			Parameter p = field.getAnnotation(Parameter.class);
-			System.out.println(p.cmdline() + " : " + p.description()); 
+			String msg = p.cmdline() + " : " + p.description();
+			if (infoEnabled)
+				logger.info(msg);
+			else
+				System.out.println(msg); 
 		}
 	}
 	
@@ -617,7 +624,7 @@ public class CommandLineParser{
 			return from.toString();
 		}
 		if (targetClassType == Boolean.class || targetClassType == boolean.class) {
-			return new Boolean(from.toString());
+			return Boolean.valueOf(from.toString());
 		}
 		if (targetClassType == File.class) {
 			File f = new File(from.toString());
@@ -725,7 +732,7 @@ public class CommandLineParser{
 				Class<?> componentType = targetClassType.getComponentType();
 				
 				// non-supported, generic object ...
-				System.out.println("non-supported, generic Object...");
+				logger.info("Trying to convert a non-supported, generic Object into an array type...");
 				
 				int length = Array.getLength(from);
 				Object result = Array.newInstance(componentType, length);
@@ -758,7 +765,8 @@ public class CommandLineParser{
 			logger.debug("convert-Method reference is " + convertMethod + ". Invoking ...");
 			if (convertMethod != null) {
 				Object invoke = convertMethod.invoke(null, from);
-				logger.debug("Returned object is of type " + (invoke==null?"null":invoke.getClass()));
+				String invokeClassString = invoke==null?"null":invoke.getClass().toString();
+				logger.debug("Returned object is of type " + invokeClassString);
 				
 				if (invoke != null) {
 					if (targetClassType.isAssignableFrom(invoke.getClass())) {
@@ -766,7 +774,7 @@ public class CommandLineParser{
 						return invoke;
 					}
 				} 
-				logger.info("static method found according to specification. However: either the reference returned is null, or the returned type (" + invoke==null?"null":invoke.getClass() + ") is not the expected one (" +targetClassType + ").");
+				logger.info("static method found according to specification. However: either the reference returned is null, or the returned type (" + invokeClassString + ") is not the expected one (" +targetClassType + ").");
 				
 			}
 		} catch (InvalidConversionFormatException e) {
