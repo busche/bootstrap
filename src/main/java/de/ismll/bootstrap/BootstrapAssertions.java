@@ -8,8 +8,15 @@ package de.ismll.bootstrap;
  * @author Andre Busche
  * 
  */
-public class BootstrapAssertions {
+public final class BootstrapAssertions {
 
+	/**
+	 * no instantiation. This provides just helper methods.
+	 */
+	private BootstrapAssertions() {
+		
+	}
+	
 	/**
 	 * Throws an appropriate BootstrapException if reference is null. Otherwise,
 	 * does nothing. If bootstrap_enabled_object is not null, and the code is
@@ -18,7 +25,7 @@ public class BootstrapAssertions {
 	 * named hint, which field / variable should be not null the next time.
 	 * 
 	 * 
-	 * @param bootstrap_enabled_object
+	 * @param bootstrapEnabledObject
 	 *            may be null
 	 * @param reference
 	 *            may be null
@@ -28,30 +35,34 @@ public class BootstrapAssertions {
 	 * @throws BootstrapException
 	 *             if reference is null (Desired behaviour)
 	 */
-	public final static void notNull(Object bootstrap_enabled_object,
-			Object reference, String variablename) throws BootstrapException {
+	public static void notNull(final Object bootstrapEnabledObject,
+			final Object reference, final String variablename)
+			throws BootstrapException {
 		if (reference == null) {
-			if (bootstrap_enabled_object != null) {
-				CommandLineParser
-						.printCommandLineHelp(bootstrap_enabled_object);
+			if (bootstrapEnabledObject != null) {
+				CommandLineParser.printCommandLineHelp(bootstrapEnabledObject);
 			}
 			BootstrapException throwThis = new BootstrapException(
 					"The variable " + variablename
 							+ " should not have had a null value!");
-			throwThis.setBootstrapEnabledObject(bootstrap_enabled_object);
+			throwThis.setBootstrapEnabledObject(bootstrapEnabledObject);
 			throw throwThis;
 		}
 	}
 
 	/**
+	 * Checks for the object reference to be not null.
+	 * 
 	 * calls notNull(null, reference, variable)
 	 * 
 	 * @param reference
+	 *            the object reference
 	 * @param variable
+	 *            an arbitrary variable name
 	 * @throws BootstrapException
 	 */
-	public final static void notNull(Object reference, String variable)
-			throws BootstrapException {
+	public static void notNull(final Object reference,
+			final String variable) throws BootstrapException {
 		notNull(null, reference, variable);
 	}
 
@@ -60,9 +71,10 @@ public class BootstrapAssertions {
 	 * for the variable name.
 	 * 
 	 * @param reference
+	 *            an arbitrary object reference
 	 * @throws BootstrapException
 	 */
-	public final static void notNull(Object reference)
+	public static void notNull(final Object reference)
 			throws BootstrapException {
 		notNull(null, reference, "an object of class "
 				+ reference.getClass().getCanonicalName());
@@ -73,11 +85,13 @@ public class BootstrapAssertions {
 	 * text.
 	 * 
 	 * @param condition
+	 *            the condition to check
 	 * @param errorMessage
+	 *            the error message (logged if the check fails)
 	 * @throws BootstrapException
 	 */
-	public final static void assertTrue(boolean condition, String errorMessage)
-			throws BootstrapException {
+	public static void assertTrue(final boolean condition,
+			final String errorMessage) throws BootstrapException {
 		assertTrue(condition, errorMessage, null);
 	}
 
@@ -93,20 +107,25 @@ public class BootstrapAssertions {
 	 * <li>assertTrue(obj!=null,"obj!=null",obj) throws an BootstrapException if
 	 * obj is null,stating that the condition "obj!=null" evaluated to false for
 	 * a value of null.
-	 * </ul>
 	 * 
 	 * @param condition
+	 *            the condition to check
 	 * @param errorMessage
+	 *            the free-text assertion message (should help the user to
+	 *            understand the problem).
 	 * @param actual
+	 *            the actual value of the object being checked.
 	 * @throws BootstrapException
 	 */
-	public static void assertTrue(boolean condition, String errorMessage,
-			Object actual) throws BootstrapException {
-		if (!condition)
+	public static void assertTrue(final boolean condition,
+			final String errorMessage, final Object actual)
+			throws BootstrapException {
+		if (!condition) {
 			throw new BootstrapException("Assertion failed. Assertion "
 					+ errorMessage + " evaluated to false "
 					+ (actual != null ? "(is: " + actual.toString() + ")" : "")
 					+ "!");
+		}
 	}
 
 }
