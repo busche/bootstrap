@@ -1,15 +1,12 @@
 package de.ismll.console;
-import java.io.BufferedInputStream;
+
 import java.io.Closeable;
 import java.io.File;  
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;  
-import java.nio.CharBuffer;
-import java.nio.file.Files;
 import java.util.ArrayList;  
 import java.util.List;  
 
@@ -19,6 +16,8 @@ import org.apache.log4j.Logger;
 import de.ismll.bootstrap.Parameter;
   
 /**
+ * 
+ * Creates run-scripts for classes implementing the Runnable interface.
  * 
  * Inspired by http://www.coderanch.com/t/485985/vc/Iterating-classes-package-Java-project
  * 
@@ -76,7 +75,8 @@ public class CreateShellscripts implements Runnable {
         return new File(resource.getFile());  
     }  
 
-    @Parameter(cmdline="package", description="Package name to scan (non-recursive)")
+    @Parameter(cmdline = "package", 
+    		description = "Package name to scan (non-recursive)")
     private String packagename;
     
     @Parameter(cmdline="scriptfolder", description="Folder to put generated scripts into.")
@@ -150,12 +150,18 @@ public class CreateShellscripts implements Runnable {
 		
 	}
 
-	private static void closeSilent(Closeable reader) {
+	/**
+	 * closes the closable object while rejecting the exception.
+	 * 
+	 * @param reader some closable object
+	 */
+	private static void closeSilent(final Closeable reader) {
 		try {
 			reader.close();
 		} catch (IOException e) {
 			// noop
 		}
+		
 	}
 
 	public String getPackagename() {

@@ -7,11 +7,11 @@ public abstract class AbstractA {
 	@Parameter(cmdline="abstracta")
 	private int abstracta;
 
-	public int getAbstracta() {
+	public final int getAbstracta() {
 		return abstracta;
 	}
 
-	public void setAbstracta(int abstracta) {
+	public final void setAbstracta(int abstracta) {
 		this.abstracta = abstracta;
 	}
 	
