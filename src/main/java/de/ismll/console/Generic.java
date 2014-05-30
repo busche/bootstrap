@@ -12,6 +12,13 @@ import de.ismll.bootstrap.CommandLineParser;
 
 public class Generic {
 
+	/**
+	 * no instantiation. Just use the main class as an entry point.
+	 */
+	private Generic() {
+		
+	}
+	
 	static Logger log = LogManager.getLogger(Generic.class);
 	
 	public static void main(String[] args) throws ClassNotFoundException, SecurityException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
@@ -19,17 +26,16 @@ public class Generic {
 			log.fatal("Need at least one parameter");
 			System.exit(3);
 		}
-				
 		String className = args[0];
 		log.info("Class to be used: " + className);
-		
+
 		args = shift(args);
 		Class<?> forName = Class.forName(className);
 		log.debug("Class reference is " + forName);
 		Method method = null ;
 		try {
 			method = forName.getMethod("main", Array.newInstance(String.class,0).getClass());
-			log.debug("main()-Method found at " + method);			
+			log.debug("main()-Method found at " + method);
 		} catch (NoSuchMethodException e) {
 			//nooop
 		}
@@ -37,7 +43,7 @@ public class Generic {
 			method.invoke(null, new Object[] {args});
 		} else {
 			log.info("No main()-method was found. Checking for Runnable implementation");
-			Runnable implemetation=null;
+			Runnable implemetation = null;
 			try {
 				Class<? extends Runnable> asSubclass = forName.asSubclass(Runnable.class);
 				log.info(asSubclass + " implements Runnable. Instantiating ...");
@@ -49,19 +55,20 @@ public class Generic {
 				log.info("Finished.");
 			} catch (ClassCastException e) {
 				StackTraceElement[] stackTrace = e.getStackTrace();
-				boolean bootstraperror=false;
-				if (stackTrace.length>2) {
+				boolean bootstraperror = false;
+				if (stackTrace.length > 2) {
 					String compareTo = Generic.class.getCanonicalName();
 					String causingClazz = forName.getCanonicalName();
-					if (compareTo!=null 
+					if (compareTo != null 
 							&& /*callee should be this implementation:*/ stackTrace[1].getClassName().equals(compareTo)
 							&& /*causing class should be the implementation that was instantiated*/ !stackTrace[0].getClassName().equals(causingClazz)) {
 						log.error("ClassCastException: Does " + forName + " maybe not implement Runnable? If so, cannot use it.");
 						bootstraperror=true;
 					}
 				}
-				if (!bootstraperror)
+				if (!bootstraperror) {
 					throw e;
+				}
 				return;
 			} catch (BootstrapException e) {
 				Object bootstrapEnabledObject = e.getBootstrapEnabledObject();
@@ -69,8 +76,9 @@ public class Generic {
 					bootstrapEnabledObject=implemetation;
 				}
 				log.error("Caught bootstrap exception " + (bootstrapEnabledObject!=null?" on object " + bootstrapEnabledObject.toString() + " ":""), e);
-				if (bootstrapEnabledObject != null)
+				if (bootstrapEnabledObject != null) {
 					CommandLineParser.printCommandLineHelp(bootstrapEnabledObject);
+				}
 			} catch (InstantiationException e) {
 				log.error("Could not instantiate " + forName + ". Public, parameterless constructor present?");
 			} catch (RuntimeException e) {

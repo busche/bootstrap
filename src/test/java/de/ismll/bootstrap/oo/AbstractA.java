@@ -16,7 +16,9 @@ public abstract class AbstractA {
 	}
 	
 	public static AbstractA convert(Object in) {
-		if (in.equals("aimpl")) return new ImplA();
+		if (in.equals("aimpl")) {
+			return new ImplA();
+		}
 		
 		return null; // uggh!
 	}
