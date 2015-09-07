@@ -802,8 +802,8 @@ public class CommandLineParser{
 	 * 
 	 * Currently only supports copy actions, if the data types are equal! 
 	 * 
-	 * @param from
-	 * @param to
+	 * @param from the source object to copy members from 
+	 * @param to the target object to copy members to 
 	 */
 	public static void copyProperties(Object from, Object to){
 		Field[] fromFields = from.getClass().getDeclaredFields();
@@ -932,10 +932,10 @@ public class CommandLineParser{
 	 * 
 	 * <pre>"key1"assignment"value1"tokenDelimiter"key2"assignment"value2"tokenDelimiter"key3"assignment"value3"</pre>
 	 * 
-	 * @param in
-	 * @param tokenDelimiter
-	 * @param assignment
-	 * @return
+	 * @param in input string, confirming to the above syntax
+	 * @param tokenDelimiter token delimiter (char within 'in'), separating individual tokens within the input string
+	 * @param assignment assignment character, splitting key from value.
+	 * @return a map containing the parsed information which is contained in the string
 	 */
 	public static Map<String, Object> parseMap(String in, char tokenDelimiter, char assignment) {
 //		String[] split = in.substring(0, in.length()).split("" + tokenDelimiter);

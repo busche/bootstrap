@@ -42,7 +42,7 @@ public abstract class AbstractProxy<T> {
 	/**
 	 * Sets the new proxy Target and returns the old one (or null).
 	 * 
-	 * @param newTarget
+	 * @param newTarget the new target
 	 * @return the old proxy target
 	 */
 	public T setTarget(T newTarget) {

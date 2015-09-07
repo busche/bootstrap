@@ -3,7 +3,7 @@ package de.ismll.bootstrap;
 /**
  * An Exception (superclass) thrown by all Bootstrap-related methods is an unhandled situation occurs.
  * 
- * This Exception class inherits all superclass constructors, but should preferably be instantiated using {@link BootstrapException#BootstrapException(Object)} as this is caught and nicely printed by the {@link Generic} launcher class.  
+ * This Exception class inherits all superclass constructors, but should preferably be instantiated using {@link BootstrapException#BootstrapException(Object)} as this is caught and nicely printed by the {@link de.ismll.console.Generic} launcher class.  
  * 
  * 
  * @author André Busche

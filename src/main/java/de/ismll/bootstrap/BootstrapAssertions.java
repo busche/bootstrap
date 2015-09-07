@@ -59,7 +59,7 @@ public final class BootstrapAssertions {
 	 *            the object reference
 	 * @param variable
 	 *            an arbitrary variable name
-	 * @throws BootstrapException
+	 * @throws BootstrapException an Exception object causing the main-wrapper to show usage information
 	 */
 	public static void notNull(final Object reference,
 			final String variable) throws BootstrapException {
@@ -72,7 +72,7 @@ public final class BootstrapAssertions {
 	 * 
 	 * @param reference
 	 *            an arbitrary object reference
-	 * @throws BootstrapException
+	 * @throws BootstrapException  an Exception object causing the main-wrapper to show usage information
 	 */
 	public static void notNull(final Object reference)
 			throws BootstrapException {
@@ -88,7 +88,7 @@ public final class BootstrapAssertions {
 	 *            the condition to check
 	 * @param errorMessage
 	 *            the error message (logged if the check fails)
-	 * @throws BootstrapException
+	 * @throws BootstrapException  an Exception object causing the main-wrapper to show usage information
 	 */
 	public static void assertTrue(final boolean condition,
 			final String errorMessage) throws BootstrapException {
@@ -97,17 +97,18 @@ public final class BootstrapAssertions {
 
 	/**
 	 * Throws a BootstrapException if condition is false. The error message
-	 * should be the plain text variant of the boolean test, e.g. "a < 4" or
-	 * "a*b<0". The actual object may be used to additionally state the expected
+	 * should be the plain text variant of the boolean test, e.g. "a &lt; 4" or
+	 * "a*b&lt;0". The actual object may be used to additionally state the expected
 	 * value. Samples, when BootstrapExceptions are thrown:
 	 * <ul>
-	 * <li>assertTrue(a<4,"a<4",a) throws an BootstrapException for any a >=4,
-	 * e.g., a=8, stating that the condition "a<4" evaluated to false for a
+	 * <li>assertTrue(a&lt;4,"a&lt;4",a) throws an BootstrapException for any a &gt;=4,
+	 * e.g., a=8, stating that the condition "a&lt;4" evaluated to false for a
 	 * value of 8.
 	 * <li>assertTrue(obj!=null,"obj!=null",obj) throws an BootstrapException if
 	 * obj is null,stating that the condition "obj!=null" evaluated to false for
 	 * a value of null.
-	 * 
+	 * </ul>
+	 *
 	 * @param condition
 	 *            the condition to check
 	 * @param errorMessage
@@ -115,7 +116,7 @@ public final class BootstrapAssertions {
 	 *            understand the problem).
 	 * @param actual
 	 *            the actual value of the object being checked.
-	 * @throws BootstrapException
+	 * @throws BootstrapException an Exception object causing the main-wrapper to show usage information
 	 */
 	public static void assertTrue(final boolean condition,
 			final String errorMessage, final Object actual)

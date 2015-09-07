@@ -33,6 +33,8 @@ public @interface Parameter {
 	 * only one field, which needs to be an array, may have this annotation set
 	 * to true. If to, each following command line arg is parsed as the fields
 	 * type
+	 *
+	 * @return true if this parameter denotes a vararg parameter, false otherwise
 	 */
 	boolean vararg() default false;
 
