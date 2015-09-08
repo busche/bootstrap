@@ -1,4 +1,4 @@
-#Tue, 06 Aug 2013 14:55:24 +0200
+#Mon, 07 Sep 2015 13:29:18 +0200
 #############################################
 #  java compiler section
 #############################################
@@ -13,4 +13,4 @@ module.name=bootstrap
 
 build.major.number=1
 build.minor.number=1
-build.revision.number=4
+build.revision.number=01

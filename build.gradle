@@ -1,0 +1,56 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+//apply plugin: 'maven-publish'
+
+version '1.1.7'
+group 'de.ismll'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'log4j:log4j:1.2.14'
+	testCompile 'junit:junit:4.8.2'
+}
+
+configurations {
+    deployerJars
+}
+
+dependencies {
+//    deployerJars "org.apache.maven.wagon:wagon-webdav:1.0-beta-2"
+    deployerJars "org.apache.maven.wagon:wagon-webdav-jackrabbit:2.9"
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+			configuration = configurations.deployerJars
+            repository(url: "dav:http://172.16.102.236/maven2repoGradle/") {
+				authentication(
+					userName: username, 
+					password: password)
+			}
+			snapshotRepository(url: 'dav:http://172.16.102.236/maven2repoGradle/') {
+                authentication(
+					userName: username, 
+					password: password)
+            }
+        }
+    }
+}
+
+
+/*
+ant.importBuild 'build.xml'
+
+task antCompile << {
+	ant.compile()
+}
+
+task hello << {
+	print "Hello World" 
+	println " !"
+}
+*/
