@@ -10,7 +10,7 @@ import de.ismll.console.Generic;
  * prints a nicely formatted error message to the console when thrown.
  * 
  * 
- * @author André Busche
+ * @author Andre Busche
  */
 public class InvalidConversionFormatException extends BootstrapException {
 
