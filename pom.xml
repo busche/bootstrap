@@ -62,7 +62,7 @@
       <id>bintray</id>
 	  <!--	  <url>https://api.bintray.com/maven/busche/maven-repo/busche-it/;publish=1</url>-->
 
-	  <url>https://api.bintray.com/maven/busche/maven/de.ismll.bootstrap/;publish=1</url>
+	  <url>https://api.bintray.com/maven/busche/busche-it/de.ismll.bootstrap/;publish=1</url>
   </repository>
 </distributionManagement>
 </project>
