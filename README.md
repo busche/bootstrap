@@ -29,7 +29,8 @@ and have a look at our libraries homepage located here:
 Therein, we also provide binary downloads.
 
 Documentation and Usage
--------------
+-----------------------
+
 See for documentation and usage information:
    
 	http://bootstrap.busche-it.de
@@ -40,7 +41,7 @@ Website
 	
 
 Citing Bootstrap
-------------------
+----------------
 If you use Bootstrap in any way, it would be nice if you could give 
 a reference to our project homepage. Furthermore, informing us 
 if you are using this software would be nice: We know about the 
@@ -50,7 +51,7 @@ our project website.
 
 Copyright & Licensing
 ---------------------
-Copyright (C) 2010, 2011, 2012, 2013 Andre Busche
+Copyright (C) 2010, 2011, 2012, 2013, 2014, 2015, 2016 Andre Busche
 Copyright (C) 2009 Martin Ortmann, Andre Busche
 
 Bootstrap is free software: you can redistribute it and/or modify
