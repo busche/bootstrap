@@ -3,7 +3,7 @@
   <groupId>de.ismll</groupId>
   <artifactId>bootstrap</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.1-SNAPSHOT</version>
+  <version>1.2.0-SNAPSHOT</version>
   <name>Bootstrap</name>
   <url>http://bootstrap.busche-it.de</url>
 
