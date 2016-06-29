@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ismll</groupId>
   <artifactId>Bootstrap</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.0</version>
+  <version>1.2.1-SNAPSHOT</version>
   <name>Bootstrap</name>
   <url>http://bootstrap.busche-it.de</url>
 
@@ -21,9 +20,9 @@
 		<version>1.2.14</version>
 	</dependency>
   </dependencies>
-  <!-- some magic, as mentioned by mkyong: http://www.mkyong.com/maven/how-to-deploy-site-with-mvn-site-deploy-webdav-example/ -->
+
 	<build>
-		    <pluginManagement>
+    <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -32,7 +31,6 @@
           <configuration>
 			<source>1.5</source>
 			<target>1.5</target>
-            <!-- put your configurations here -->
           </configuration>
         </plugin>
       </plugins>
@@ -44,4 +42,27 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 </properties>
 
+  <licenses>
+    <license>
+      <name>GPL-3</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:https://github.com/busche/bootstrap.git</connection>
+    <developerConnection>scm:git:https://github.com/busche/bootstrap.git</developerConnection>
+    <url>https://github.com/busche/bootstrap</url>
+    <tag>HEAD</tag>
+  </scm>
+
+<distributionManagement>
+  <repository>
+      <id>bintray-repo-busche-it</id>
+	  <!--	  <url>https://api.bintray.com/maven/busche/maven-repo/busche-it/;publish=1</url>-->
+
+	  <url>https://api.bintray.com/maven/busche/maven/busche/busche-it/de.ismll.bootstrap/;publish=1</url>
+  </repository>
+</distributionManagement>
 </project>
