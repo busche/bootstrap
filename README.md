@@ -4,7 +4,6 @@ bootstrap
 Bootstrapping Java Applications
 
 
-
 Features
 --------
  * arbitrary ordering of command line parameters
